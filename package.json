@@ -1,0 +1,27 @@
+{
+  "name": "kapsnack-problem-with-genetic-algorithm",
+  "version": "1.0.0",
+  "description": "UAM Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YellowFlash525/Kapsnack-Problem-with-Genetic-Algorithm.git"
+  },
+  "keywords": [
+    "UAM",
+    "KS",
+    "GA"
+  ],
+  "author": "Kamil Wójcik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YellowFlash525/Kapsnack-Problem-with-Genetic-Algorithm/issues"
+  },
+  "homepage": "https://github.com/YellowFlash525/Kapsnack-Problem-with-Genetic-Algorithm#readme",
+  "dependencies": {
+    "lodash": "^4.17.5"
+  }
+}
