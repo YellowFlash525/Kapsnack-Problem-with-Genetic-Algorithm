@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Knapsnack Problem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./lodash.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <input type="button" value="Solve Knapsack Problem" onclick="knapsack_init();">
+  <label>&nbsp;Selection:
+    <select id="selection">
+      <option>rank</option>
+      <option>tournament</option>
+    </select>
+  </label>
+  <input type="button" value="Stop">
+  <div style="width:62%;float:left;">
+    <div id="status"></div>
+    <div id="result"></div>
+  </div>
+  <div style="float:right;width:37%;">
+    <h3>Settings</h3>
+    <label>Knapsack capacity:<input id='max_weight' type='text' value='400'></label>
+  </div>
+  <table style='list-style-type:none;'>
+      <thead>
+      <tr><td>Name</td><td>Weight</td><td>Value</td><td>Quantity</td></tr>
+      </thead>
+      <tbody id='items_list'>
+      </tbody>
+  </table>
+  <script src="./index.js"></script>
+</body>
+</html>

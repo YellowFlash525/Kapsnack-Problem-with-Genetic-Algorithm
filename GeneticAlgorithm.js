@@ -1,71 +1,48 @@
-const _ = require('lodash');
+//config object used to set the parameters of the game. This object is passed to the worker thread to initialize it
+var config = new Object();
+config.popSize = 800;
+config.maxGenerations = 200;
+config.maxRuns = 1;
+config.mutateProb = 0.05;
+config.selection = "rank";
+config.fitness_order = "asc";
+config.unique_chromosomes = false;
 
-var kapsnack = (V, W, MAX, popSize, mut, maxGen, percent) => {
-    console.log('knapsnack');
-};
+function Item(name,weight,cost,bound) {
+	this.name = name;
+	this.weight = weight;
+	this.cost = cost;
+	this.bound = bound;
+}
 
-var generate = (V, popSize) => {
-    console.log('generate');
-};
+var addElementToList = () => {
+  config.items = [];
+  config.items.push(new Item('skarpety', 22, 5, 1));
+  config.items.push(new Item('bluza', 23, 6, 1));
+  config.items.push(new Item('spodnie', 24, 2, 0));
+  config.items.push(new Item('buty', 30, 9, 1));
+  config.items.push(new Item('krawat', 31, 5, 0));
+}
 
-var getFitness = (pop, V, W, MAX) => {
-    console.log('get fitness');
-};
+var knapsack_init = () => { 
+  config.max_weight = 400;
+  
+	// if(isNaN(parseInt($('#bound').val()))){
+	// 	$('#bound').val('1');
+  // }
+  
+	// config.bound = parseInt($('#bound').val());
+  // config.selection = $('#selection').val();
+  
+  addElementToList();
+	
+  // $('#result').empty();
+  
+	var message = new Object();
+	message.act = "init";
+  message.data = config;
+  
+  console.log(message.data.items);
+}
 
-var newPopulation = (pop, fit, mut) => {
-    console.log('newPopulation');
-};
-
-var selectElite = (pop, fit) => {
-   elite = 0;
-
-   for (let i = 0; i < fit.length; i++) {
-     if(fit[i] > fit[elite]) {
-       elite = i
-     }
-   }
-
-   return pop[elite];
-};
-
-var select = (pop, fit) => {
-    console.log('select');
-};
-
-var crossover = (mate1, mate2) => {
-    lucky = _.random(0, mate1.length-1);
-    return mate1.slice(0, lucky) + mate2.splice(lucky, mate2.length);
-};
-
-var mutate = (gene, mutate) => {
-  for(let i = 0; i < gene.length; i++) {
-    let lucky = _.random(1, mutate);
-    if (lucky === 1) {
-      console.log('Mutated!');
-      gene[i] = Boolean(gene[i])^1;
-    }
-  }
-
-  return gene;
-};
-
-var test = (fit, rate) => {
-    maxCount = mode(fit);
-    (parseFloat(maxCount)/parseFloat(fit.length)) >= rate ? true : false;
-};
-
-var mode = (fit) => {
-  values = _.uniqBy(fit);
-  maxCount = 0;
-  for(let i = 0; i < values.length; i++) {
-    if(maxCount < _.countBy(fit)) {
-      maxCount = _.countBy(fit);
-      console.log('whcodzę tu');
-    }
-  }
-
-  console.log(maxCount);
-  return maxCount;
-};
-
-module.exports = {kapsnack, generate, selectElite, select, crossover, mutate, test, mode}
+knapsack_init();
