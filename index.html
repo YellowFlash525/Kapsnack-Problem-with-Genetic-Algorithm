@@ -22,16 +22,18 @@
     <div id="result"></div>
   </div>
   <div style="float:right;width:37%;">
-    <h3>Settings</h3>
-    <label>Knapsack capacity:<input id='max_weight' type='text' value='400'></label>
+    <label id='max_weight'></label>
   </div>
-  <table style='list-style-type:none;'>
+  <div>
+    <h3>List rzeczy</h3>
+    <table style='list-style-type:none;'>
       <thead>
-      <tr><td>Name</td><td>Weight</td><td>Value</td><td>Quantity</td></tr>
+      <tr><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr>
       </thead>
       <tbody id='items_list'>
       </tbody>
-  </table>
+    </table>
+  </div>
   <script src="./index.js"></script>
 </body>
 </html>

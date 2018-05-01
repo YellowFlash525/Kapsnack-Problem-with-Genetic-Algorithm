@@ -28,24 +28,36 @@ var addElementToDOM = () => {
   });
 }
 
-var addElementToList = () => {
+var initDOMElement = () => {
   config.items = [];
-  config.items.push(new Item('skarpety', 22, 5, 1));
-  config.items.push(new Item('bluza', 23, 6, 1));
-  config.items.push(new Item('spodnie', 24, 2, 0));
-  config.items.push(new Item('buty', 30, 9, 1));
-  config.items.push(new Item('krawat', 31, 5, 0));
+
+  config.max_weight = 400;
+  $('#max_weight').append(`Pojemność plecaka: ${config.max_weight}`);
+
+  config.bound = '';
+
+  config.items.push(new Item('skarpety', 4, 50, 1));
+  config.items.push(new Item('koszulka', 24, 15, 2));
+  config.items.push(new Item('spodnie', 48, 10, 2));
+  config.items.push(new Item('buty', 60, 20, 1));
+  config.items.push(new Item('piwo', 52, 10, 3));
+  config.items.push(new Item('mapa', 9, 150, 1));
+  config.items.push(new Item('kompas', 15, 35, 1));
+  config.items.push(new Item('woda', 153, 200, 2));
+  config.items.push(new Item('banan', 27, 60, 3));
+  config.items.push(new Item('jabłko', 39, 40, 3));
+  config.items.push(new Item('ser', 23, 30, 1));
+  config.items.push(new Item('książka', 30, 10, 2));
 
   addElementToDOM();
 }
 
-addElementToList();
+initDOMElement();
 
-var knapsack_init = () => { 
-  config.max_weight = 400;
-	config.bound = '';
-
+var knapsack_init = () => {
 	var message = new Object();
 	message.act = "init";
   message.data = config;
+
+  console.log(message.data);
 }
