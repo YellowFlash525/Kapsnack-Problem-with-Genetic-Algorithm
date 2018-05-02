@@ -1,0 +1,14 @@
+.list_elements__content {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  text-align: center; }
+  .list_elements__content td, .list_elements__content th {
+    border: 1px solid #ddd;
+    padding: 8px; }
+  .list_elements__content tr:nth-child(even) {
+    background-color: #f2f2f2; }
+  .list_elements__content thead tr td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4CAF50;
+    color: white; }

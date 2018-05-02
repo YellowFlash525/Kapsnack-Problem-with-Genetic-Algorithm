@@ -5,28 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Knapsnack Problem</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="./lodash.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="./libs/lodash.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
   <input type="button" value="Solve Knapsack Problem" onclick="knapsack_init();">
-  <label>&nbsp;Selection:
+  <label>Selection:
     <select id="selection">
       <option>rank</option>
       <option>tournament</option>
     </select>
   </label>
   <input type="button" value="Stop">
-  <div style="width:62%;float:left;">
+  <div>
     <div id="status"></div>
     <div id="result"></div>
   </div>
-  <div style="float:right;width:37%;">
+  <div>
     <label id='max_weight'></label>
   </div>
-  <div>
-    <h3>List rzeczy</h3>
-    <table style='list-style-type:none;'>
+  <div class="list_elements">
+    <h3 class="list_elements__title">List rzeczy</h3>
+    <table class="list_elements__content">
       <thead>
       <tr><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr>
       </thead>
@@ -34,6 +35,6 @@
       </tbody>
     </table>
   </div>
-  <script src="./index.js"></script>
+  <script src="./js/index.js"></script>
 </body>
 </html>

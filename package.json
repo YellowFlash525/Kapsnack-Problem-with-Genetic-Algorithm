@@ -2,9 +2,9 @@
   "name": "kapsnack-problem-with-genetic-algorithm",
   "version": "1.0.0",
   "description": "UAM Project",
-  "main": "index.js",
+  "main": "./js/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,11 @@
   "homepage": "https://github.com/YellowFlash525/Kapsnack-Problem-with-Genetic-Algorithm#readme",
   "dependencies": {
     "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-stylelint": "^7.0.0",
+    "stylelint": "^9.2.0"
   }
 }
