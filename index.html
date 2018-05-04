@@ -10,14 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
-  <input type="button" value="Solve Knapsack Problem" onclick="knapsack_init();">
-  <label>Selection:
-    <select id="selection">
-      <option>rank</option>
-      <option>tournament</option>
-    </select>
-  </label>
-  <input type="button" value="Stop">
+  <button onclick="knapsack_init();">Solve Knapsack Problem</button>
+  <button onclick="stop()">Stop</button>
   <div>
     <div id="status"></div>
     <div id="result"></div>
