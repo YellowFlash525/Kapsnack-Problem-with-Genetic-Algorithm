@@ -14,7 +14,15 @@
   <button onclick="stop()">Stop</button>
   <div>
     <div id="status"></div>
-    <div id="result"></div>
+    <div id="result">
+      <table class="list_results">
+        <thead>
+          <tr><td>W plecaku</td><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr>
+        </thead>
+        <tbody id='items_result'>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div>
     <label id='max_weight'></label>

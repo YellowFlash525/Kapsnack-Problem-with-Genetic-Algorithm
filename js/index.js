@@ -28,13 +28,13 @@ var addElementToDOM = () => {
 }
 
 var initDOMElement = () => {
-  config.popSize = 600; //change to 800
+  config.popSize = 800; //change to 800
   config.maxGenerations = 200;
   config.maxRuns = 1;
   config.mutateProb = 0.05;
   config.selection = "rank";
   config.fitness_order = "asc";
-  config.unique_chromosomes = false;
+  config.unique_chromosomes = true;
   config.items = [];
 
   config.max_weight = 400;
@@ -48,11 +48,15 @@ var initDOMElement = () => {
   config.items.push(new Item('buty', 60, 20, 1));
   config.items.push(new Item('piwo', 52, 10, 3));
   config.items.push(new Item('mapa', 9, 150, 1));
-  config.items.push(new Item('kompas', 15, 35, 1));
+  config.items.push(new Item('kompas', 13, 35, 1));
   config.items.push(new Item('woda', 153, 200, 2));
   config.items.push(new Item('banan', 27, 60, 3));
   config.items.push(new Item('jabłko', 39, 40, 3));
   config.items.push(new Item('ser', 23, 30, 1));
+  config.items.push(new Item('książka', 30, 10, 2));
+  config.items.push(new Item('kanapka', 50, 60, 2));
+  config.items.push(new Item('cukier', 15, 60, 2));
+  config.items.push(new Item('kamera', 32, 30, 1));
   config.items.push(new Item('książka', 30, 10, 2));
 
   addElementToDOM();
@@ -74,34 +78,45 @@ var knapsack_init = () => {
       console.log('Pause');
 			break;
 		case 'init':
-      let configGA = data.config;
+      configGA = data.config;
       console.log('GA');
 			run = 0;
-			runGA(configGA);
+			runGA();
 			break;
 	}
 }
 
-var runGA = (configGA) => {
+var runGA = () => {
 	gen = 0;
 	//make initial random population
 	population = new Array();
 	for (let i = 0; i < configGA.popSize;){
 		var object = new Object();
-		object.chromosome = generateChromosome(configGA.items, configGA.max_weight);
+		object.chromosome = generateChromosome();
     object.fitness = 0;
-    if (insertIntoPopulation(object, population, configGA.max_weight)) i++;
+    if (insertIntoPopulation(object, population)) i++;
   }
-  console.log(population);
 	stop_running = false;
-	geneticAlgorithm(configGA, population);
+	console.log(population);
+	geneticAlgorithm();
 }
 
-var geneticAlgorithm = (configGA, population) => {
-  if (config.fitness_order === "desc")
+var geneticAlgorithm = () => {
+  if (configGA.fitness_order === "desc")
 		population.sort((a,b) => { return b.fitness-a.fitness });
 	else
     population.sort((a,b) => { return a.fitness-b.fitness });
+
+  if (gen > 0) {
+    let element = population[population.length-1];
+    // console.log(element)
+  }
+
+  if (stop_running || configGA.maxGenerations === gen) {
+    let answerPop = population[population.length-1];
+    console.log(answerPop);
+    return true;
+  }
 
 	for (let i = 0; i < population.length; i++) {
     population[i].fitness = measureFitness(population[i].chromosome);
@@ -109,33 +124,68 @@ var geneticAlgorithm = (configGA, population) => {
 
   var newPopulation = new Array();
 	for (var i = 0; i < population.length;) {
-    var randNumber = _.ceil(_.random(1,3));
-    // console.log(randNumber);
+    var randNumber = Math.ceil(Math.random() * 3);
     switch(randNumber) {
       case 1:
         //select one individual based on fitness
-        var individual = population[selectFromPopulation(configGA, population)];
+        var individual = population[selectFromPopulation()];
 				//perform reproduction
 				var newIndividual = new Object();
 				newIndividual.chromosome = individual.chromosome.slice();
 				newIndividual.fitness = individual.fitness;
 				//insert copy in new pop
-				if(insertIntoPopulation(newIndividual, newPopulation, configGA.items, configGA.max_weight)) i++;
+				if(insertIntoPopulation(newIndividual, newPopulation)) i++;
         break;
       case 2:
         //select two individuals based on fitness
-        i++;
-        console.log("case 2");
+        var individual1 = population[selectFromPopulation()];
+				var individual2 = population[selectFromPopulation()];
+				//perform crossover
+				var child1 = new Object();
+				var child2 = new Object();
+        var xover = _.floor(Math.random()*individual1.chromosome.length);
+        
+        if(configGA.unique_chromosomes) {
+					var r = _.random();
+					if (r < 0.5) {
+						child1.chromosome = crossover1(individual1.chromosome,individual2.chromosome);
+						child2.chromosome = crossover1(individual1.chromosome,individual2.chromosome);
+					} else {
+						child1.chromosome = crossover2(individual1.chromosome,individual2.chromosome);
+						child2.chromosome = crossover2(individual1.chromosome,individual2.chromosome);						
+					}
+				} else {
+					child1.chromosome = individual1.chromosome.slice(0,xover).concat(individual2.chromosome.slice(xover));
+					child2.chromosome = individual2.chromosome.slice(0,xover).concat(individual1.chromosome.slice(xover));
+				}
+				
+				child1.fitness = measureFitness(child1.chromosome);
+				child2.fitness = measureFitness(child2.chromosome);
+				
+				var candidates = new Array();
+				candidates.push(individual1);
+				candidates.push(individual2);
+				candidates.push(child1);
+        candidates.push(child2);
+        
+				if (configGA.fitness_order == "desc") {
+					candidates.sort( function (a,b) { return b.fitness-a.fitness });
+        } else {
+          candidates.sort( function (a,b) { return a.fitness-b.fitness });
+        }
+        //insert offspring in new pop
+				if (insertIntoPopulation(candidates[2], newPopulation)) i++;
+				if (insertIntoPopulation(candidates[3], newPopulation)) i++;
         break;
       case 3:
         //select one individual based on fitness
-        var individual = population[selectFromPopulation(configGA, population)];
+        var individual = population[selectFromPopulation()];
 				//perform mutation
 				var mutant = new Object();
 				mutant.chromosome = individual.chromosome.slice();
-				var r = _.random();
-				var x1 = _.floor(Math.random()*mutant.chromosome.length);
-        var x2 = _.floor(Math.random()*mutant.chromosome.length);
+				var r = Math.random();
+				var x1 = Math.floor(Math.random()*mutant.chromosome.length);
+        var x2 = Math.floor(Math.random()*mutant.chromosome.length);
         
 				if (r < 0.5) {
 					//Mutate 1 - reciprocal exchange
@@ -151,33 +201,87 @@ var geneticAlgorithm = (configGA, population) => {
         
 				mutant.fitness = measureFitness(mutant.chromosome);
 				//insert mutant in new pop
-				if (insertIntoPopulation(mutant, newPopulation, configGA.items, configGA.max_weight)) i++;
+				if (insertIntoPopulation(mutant, newPopulation)) i++;
         break;
       default:
     }
   }
   
   pupulation = newPopulation;
-
-  console.log(pupulation);
   gen++;
-  // console.log(population);
+
+  if(!stop_running){
+		runTimeout = setTimeout(geneticAlgorithm(), 50);
+	}
 }
 
-var insertIntoPopulation = (individual, newPopulation, items, maxWeight) => {
+var crossover1 = (parent1, parent2) => {
+	//Order crossover
+	var A = _.floor(Math.random()*parent1.length);
+	var B = _.floor(Math.random()*parent1.length);
+	while(A == B)
+		B = _.floor(Math.random()*parent1.length);
+	if (A > B) {
+		var temp = B;
+		B = A;
+		A = temp;
+	}
+	var child = new Array(parent1.length);
+	//copy A to B from parent 1
+	for (var i = A; i < B ; i++) {
+		child[i] = parent1[i];
+	}
+	//fill in the rest of child with parent2's genes
+	var parent2_index = 0;
+	for (let child_index = 0; child_index < parent1.length; child_index++) {
+		if (child[child_index] == undefined) {
+			for (;parent2_index < parent1.length; parent2_index++) {
+				//if(child.indexOf(parent2[parent2_index])<0){
+					child[child_index] = parent2[parent2_index];
+					break;
+				//}
+			}
+		}
+	}
+	return child;
+}
+
+var crossover2 = (parent1, parent2) => {
+	//Position-based crossover
+	var child = new Array(parent1.length);
+	for(let i = 0; i < parent1.length; i++) {
+		var r = _.random();
+		if (r < 0.5) child[i] = parent1[i];
+	}
+	//fill in the rest of child with parent2's genes
+	var parent2_index = 0;
+	for (let child_index = 0; child_index < parent1.length; child_index++) {
+		if (child[child_index] == undefined) {
+			for (;parent2_index < parent1.length; parent2_index++) {
+				//if(child.indexOf(parent2[parent2_index])<0){
+					child[child_index] = parent2[parent2_index];
+					break;
+				//}
+			}
+		}
+	}
+	return child;
+}
+
+var insertIntoPopulation = (individual, newPopulation) => {
 	//don't insert into population if child violates max weight rule
 	var totalWeight = 0;
 	for (let i = 0 ; i < individual.chromosome.length; i++) {
 		totalWeight += individual.chromosome[i].weight;
   }
 
-  if (totalWeight > maxWeight) return false;
+  if (totalWeight > configGA.max_weight) return false;
 
 	//don't insert into population if child violates bound rule
-	for (let i = 0; i < items.length; i++) {
+	for (let i = 0; i < configGA.items.length; i++) {
     //filter element in chromosome by name and bound value
-		var countArray = individual.chromosome.filter(getItemsFilter, items[i]);
-		if (countArray.length > items[i].bound) {
+		var countArray = _.filter(individual.chromosome, configGA.items[i]);
+		if (countArray.length > configGA.items[i].bound) {
 			return false;
 		}
   }
@@ -186,31 +290,14 @@ var insertIntoPopulation = (individual, newPopulation, items, maxWeight) => {
 	return true;
 }
 
-var selectFromPopulation = (config, pop) => {
-  var choices = new Array();
-
-  for (let i = 0 ; i < 5 ; i++) {
-    var rnum = _.floor(Math.random() * pop.length);
-    choices[i] = pop[rnum];
-    choices[i].index = rnum;
-  }
-
-  if (config.fitness_order == "desc") {
-    choices.sort( function (a,b) { return b.fitness-a.fitness });
-  } else {
-    choices.sort( function (a,b) { return a.fitness-b.fitness });
-  }
-
-  var r = _.random(0, 1);
-  //p = 0.5
-  if (r < 0.5) {
-    //return most fit
-    return choices[choices.length-1].index;
-  }
-
-  //otherwise, return a random choice
-  var rnum = _.floor(Math.random() * choices.length);
-  return choices[rnum].index;
+var selectFromPopulation = () => {
+  var r = Math.random()*((population.length*(population.length+1))/2);
+    var sum = 0;
+    for (var i = 0;i<population.length;i++) {
+      for (sum += i; sum > r; r++) return i;
+    }
+    
+    return population.length-1;
 }
 
 var measureFitness = (chromosome) => {
@@ -221,23 +308,19 @@ var measureFitness = (chromosome) => {
 	return fitness;
 }
 
-var getItemsFilter = (item) => {
-	return this === item;
-}
-
 //randomly generate a chromosome with elements from list
-var generateChromosome = (items, maxWeight) => {
+var generateChromosome = () => {
 	var randomChromosome = [];
 	var weightSoFar = 0;
-  var availableItems = items.slice();
+  var availableItems = configGA.items.slice();
 
-	while (weightSoFar <= maxWeight && availableItems.length) {
+	while (weightSoFar <= configGA.max_weight && availableItems.length) {
     var index = _.floor(Math.random() * availableItems.length);
 
-		if ((weightSoFar + availableItems[index].weight) <= maxWeight) {
+		if ((weightSoFar + availableItems[index].weight) <= configGA.max_weight) {
 			randomChromosome = randomChromosome.concat(availableItems[index]);
 			weightSoFar += availableItems[index].weight;
-			var countArray = randomChromosome.filter(getItemsFilter, availableItems[index]);
+			var countArray = _.filter(randomChromosome, availableItems[index]);
 			
 			if (countArray.length >= availableItems[index].bound) availableItems.splice(index,1);
 		} else {
