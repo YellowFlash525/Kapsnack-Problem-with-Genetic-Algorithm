@@ -10,32 +10,22 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
-  <button onclick="knapsack_init();">Solve Knapsack Problem</button>
-  <button onclick="stop()">Stop</button>
-  <div>
-    <div id="status"></div>
-    <div id="result">
-      <table class="list_results">
+  <button class="knapsack_button" onclick="knapsack_init();">Solve Knapsack Problem</button>
+  <div class="wrapper">
+    <div id="result"></div>
+    <div class="list_elements">
+      <div>
+        <label id='max_weight'></label>
+      </div>
+      <h3 class="list_elements__title">List rzeczy</h3>
+      <table class="list_elements__content">
         <thead>
-          <tr><td>W plecaku</td><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr>
+        <tr><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr>
         </thead>
-        <tbody id='items_result'>
+        <tbody id='items_list'>
         </tbody>
       </table>
     </div>
-  </div>
-  <div>
-    <label id='max_weight'></label>
-  </div>
-  <div class="list_elements">
-    <h3 class="list_elements__title">List rzeczy</h3>
-    <table class="list_elements__content">
-      <thead>
-      <tr><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr>
-      </thead>
-      <tbody id='items_list'>
-      </tbody>
-    </table>
   </div>
   <script src="./js/index.js"></script>
 </body>

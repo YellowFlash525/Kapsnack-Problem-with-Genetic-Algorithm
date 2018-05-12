@@ -114,7 +114,8 @@ var geneticAlgorithm = () => {
 
   if (stop_running || configGA.maxGenerations === gen) {
     let answerPop = population[population.length-1];
-    console.log(answerPop);
+		console.log(answerPop);
+		draw(answerPop);
     return true;
   }
 
@@ -213,6 +214,21 @@ var geneticAlgorithm = () => {
   if(!stop_running){
 		runTimeout = setTimeout(geneticAlgorithm(), 50);
 	}
+}
+
+var draw = (result) => {
+	var result_weight = 0;
+	var result_str = "<table class='list_elements__content'><thead><tr><td>W plecaku</td><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr></thead><tbody>";
+	
+	for (let i = 0; i < configGA.items.length; i++) {
+		var countArray = _.filter(result.chromosome, configGA.items[i]);
+		result_str += "<tr><td>" + countArray.length + "</td><td>" + configGA.items[i].name + "</td><td>" + configGA.items[i].weight+"kg</td><td>" + configGA.items[i].value + "zł</td><td>" + configGA.items[i].bound + "</td></tr>";
+	}
+	for (let i = 0; i < result.chromosome.length; i++) {
+		result_weight += result.chromosome[i].weight;
+	}
+	result_str += "</tbody></table><p> Total Value: " + result.fitness + ", Total Weight: " + result_weight + "</p>"
+	$('#result').html(result_str);
 }
 
 var crossover1 = (parent1, parent2) => {
