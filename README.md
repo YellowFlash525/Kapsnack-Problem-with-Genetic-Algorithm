@@ -15,5 +15,5 @@ Na Algorytm genetyczny składa się:
 2. Następnie dla każdego chromosomu przeliczania jest wartość fitness określająca wartość przystosowania tego chromosomu - measureFitness()
 3. Sprawdzanie warunku zatrzymania - w tym przypadku jest to liczba iteracji, która musi być równa maksymalnej liczbie generacji maxGen
 4. Jeśli warunek nie jest spełniony wykonywana jest selekcja chromosomów i ich krzyżowanie - selectFromPopulation() i crossover1() crossover2()
-5. Z wyselekcjonowanych, zkrzyżowanych chromosomów tworzona jest nowa populacja
+5. Z wyselekcjonowanych, skrzyżowanych chromosomów tworzona jest nowa populacja
 6. Następnie wyprowadzany jest najlepszy chromosom
