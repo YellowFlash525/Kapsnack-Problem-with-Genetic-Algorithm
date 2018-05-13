@@ -29,6 +29,15 @@
   left: 50%;
   transform: translateX(-50%); }
 
+.weight_box {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #4CAF50;
+  width: 89%;
+  color: white; }
+  .weight_box label {
+    margin-left: 15px; }
+
 #results {
   width: 50%; }
 

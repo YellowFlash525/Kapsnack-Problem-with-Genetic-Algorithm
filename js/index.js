@@ -37,7 +37,7 @@ var initDOMElement = () => {
   config.items = [];
 
   config.max_weight = 400;
-  $('#max_weight').append(`Pojemność plecaka: ${config.max_weight}`);
+  $('#max_weight').append(`Pojemność plecaka: ${config.max_weight}kg`);
 
   config.bound = '';
 
@@ -65,21 +65,11 @@ initDOMElement();
 
 var knapsackInit = () => {
 	var data = new Object();
-	data.act = "init";
   data.config = config;
 
-  switch(data.act){
-		case 'pause':
-			stopRunning = true;
-      if(runTimeout) clearTimeout(runTimeout);
-      console.log('Pause');
-			break;
-		case 'init':
-      configGA = data.config;
-      console.log('GA');
-			runGA();
-			break;
-	}
+	configGA = data.config;
+	console.log('GA');
+	runGA();
 }
 
 var runGA = () => {
@@ -213,7 +203,7 @@ var geneticAlgorithm = () => {
 
 var drawList = (result) => {
 	var result_weight = 0;
-	var result_str = "<table class='list_elements__content'><thead><tr><td>W plecaku</td><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr></thead><tbody>";
+	var result_str = "<h3>List zabranych rzeczy</h3><table class='list_elements__content'><thead><tr><td>W plecaku</td><td>Nazwa</td><td>Waga</td><td>Wartość</td><td>Dostępna ilość</td></tr></thead><tbody>";
 	
 	for (let i = 0; i < configGA.items.length; i++) {
 		var countArray = _.filter(result.chromosome, configGA.items[i]);
